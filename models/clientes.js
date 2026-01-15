@@ -16,8 +16,16 @@ export default class clientes extends Model {
     },
     email: {
       type: DataTypes.STRING(150),
-      allowNull: true,
+      allowNull: false,
       unique: "email"
+    },
+    telefono: {
+      type: DataTypes.STRING(20),
+      allowNull: true
+    },
+    direccion: {
+      type: DataTypes.STRING(200),
+      allowNull: true
     }
   }, {
     sequelize,

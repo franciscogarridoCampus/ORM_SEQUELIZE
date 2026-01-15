@@ -13,6 +13,10 @@ export default class categorias extends Model {
     nombre: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    descripcion: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     sequelize,

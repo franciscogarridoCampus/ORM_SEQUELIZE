@@ -1,37 +1,36 @@
+// server.js
 import express from "express";
-import { Sequelize } from "sequelize"; // Necesario para inicializar modelos
 import { sequelize } from "./config/db.js";
 
-// Importar rutas
-import productoRoutes from "./routes/productosRoutes.js";
-import logRoutes from "./routes/logRoutes.js"; // <-- Rutas Log
-
-// Importar modelos
-import Productos from "./models/productos.js";
-import Log from "./models/log.js"; // <-- Modelo Log
+// Importar todas las rutas
+import productosRoutes from "./routes/productosRoutes.js";
+import categoriasRoutes from "./routes/categoriasRoutes.js";
+import clientesRoutes from "./routes/clientesRoutes.js";
+import pedidosRoutes from "./routes/pedidosRoutes.js";
+import detallesPedidoRoutes from "./routes/detalles_pedidoRoutes.js";
 
 const app = express();
 app.use(express.json());
 
-// Inicializar modelos
-Productos.init(sequelize, Sequelize);
-Log.init(sequelize, Sequelize);
-
-// Rutas
-app.use("/productos", productoRoutes);
-app.use("/logs", logRoutes); // <-- Rutas Log
-
-// Sincronizar base de datos y arrancar servidor
+// 🔌 Verificar y sincronizar la base de datos
 (async () => {
   try {
-    // Sincroniza las tablas según los modelos
+    await sequelize.authenticate();
+    console.log("✅ Conexión establecida con la base de datos:", sequelize.config.database);
     await sequelize.sync({ alter: true });
-    console.log("✅ Tablas sincronizadas.");
-
-    // Iniciar servidor después de sincronizar
-    const PORT = 3000;
-    app.listen(PORT, () => console.log(`🚀 Servidor en http://localhost:${PORT}`));
+    console.log("✅ Tablas sincronizadas correctamente.");
   } catch (error) {
     console.error("❌ Error al sincronizar las tablas:", error);
   }
 })();
+
+// 📦 Rutas principales
+app.use("/productos", productosRoutes);
+app.use("/categorias", categoriasRoutes);
+app.use("/clientes", clientesRoutes);
+app.use("/pedidos", pedidosRoutes);
+app.use("/detalles_pedido", detallesPedidoRoutes);
+
+// 🚀 Arrancar servidor
+const PORT = 3000;
+app.listen(PORT, () => console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`));

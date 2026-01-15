@@ -11,17 +11,22 @@ export default class productos extends Model {
       primaryKey: true
     },
     nombre: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(255),
       allowNull: false
     },
     precio: {
-      type: DataTypes.DECIMAL(10,2),
+      type: DataTypes.FLOAT,
       allowNull: false
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0
     }
   }, {
     sequelize,
     tableName: 'productos',
-    timestamps: false,
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",
