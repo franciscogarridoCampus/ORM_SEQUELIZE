@@ -22,6 +22,16 @@ export default class pedidos extends Model {
       type: DataTypes.DATE,
       allowNull: true,
       defaultValue: Sequelize.Sequelize.fn('current_timestamp')
+    },
+    total: {
+      type: DataTypes.DECIMAL(10,2),
+      allowNull: true,
+      defaultValue: 0.00
+    },
+    estado: {
+      type: DataTypes.ENUM('pendiente','pagado','enviado','entregado','cancelado'),
+      allowNull: true,
+      defaultValue: "pendiente"
     }
   }, {
     sequelize,

@@ -1,28 +1,23 @@
 // services/logService.js
-import Log from "../models/log.js";
+import { sequelize } from "../config/db.js";
+import log from "../models/log.js";
+import { DataTypes } from "sequelize";
 
-export const crearLog = async (data) => {
-  return await Log.create(data);
-};
+const Log = log.init(sequelize, DataTypes);
 
-export const obtenerLogs = async () => {
-  return await Log.findAll();
-};
-
-export const obtenerLogPorId = async (id) => {
-  return await Log.findByPk(id);
-};
-
-export const actualizarLog = async (id, data) => {
-  const log = await Log.findByPk(id);
-  if (!log) return null;
-  await log.update(data);
-  return log;
-};
-
-export const eliminarLog = async (id) => {
-  const log = await Log.findByPk(id);
-  if (!log) return null;
-  await log.destroy();
-  return true;
-};
+export default class LogService {
+  static async crear(data) { return await Log.create(data); }
+  static async obtenerTodos() { return await Log.findAll(); }
+  static async obtenerPorId(id) { return await Log.findByPk(id); }
+  static async actualizar(id, data) {
+    const item = await Log.findByPk(id);
+    if (!item) return null;
+    return await item.update(data);
+  }
+  static async eliminar(id) {
+    const item = await Log.findByPk(id);
+    if (!item) return null;
+    await item.destroy();
+    return true;
+  }
+}

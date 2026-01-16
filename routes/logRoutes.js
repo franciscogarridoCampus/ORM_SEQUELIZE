@@ -1,31 +1,13 @@
 // routes/logRoutes.js
 import express from "express";
-import {
-  obtenerLogs,
-  obtenerLogPorId
-} from "../services/logService.js";
+import LogController from "../controllers/logController.js";
 
 const router = express.Router();
 
-// GET todos los logs
-router.get("/", async (req, res) => {
-  try {
-    const logs = await obtenerLogs();
-    res.json(logs);
-  } catch (error) {
-    res.status(500).json({ mensaje: "Error al obtener logs", error });
-  }
-});
-
-// GET log por ID
-router.get("/:id", async (req, res) => {
-  try {
-    const log = await obtenerLogPorId(req.params.id);
-    if (!log) return res.status(404).json({ mensaje: "Log no encontrado" });
-    res.json(log);
-  } catch (error) {
-    res.status(500).json({ mensaje: "Error al obtener log", error });
-  }
-});
+router.get("/", LogController.obtenerTodos);
+router.get("/:id", LogController.obtenerPorId);
+router.post("/", LogController.crear);
+router.put("/:id", LogController.actualizar);
+router.delete("/:id", LogController.eliminar);
 
 export default router;

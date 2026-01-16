@@ -3,31 +3,31 @@ const { Model, Sequelize } = _sequelize;
 
 export default class log extends Model {
   static init(sequelize, DataTypes) {
-    return super.init({
-      id: {
-        autoIncrement: true,
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        primaryKey: true
+  return super.init({
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    log: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    }
+  }, {
+    sequelize,
+    tableName: 'log',
+    timestamps: false,
+    indexes: [
+      {
+        name: "PRIMARY",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "id" },
+        ]
       },
-      log: {
-        type: DataTypes.TEXT,
-        allowNull: false
-      }
-    }, {
-      sequelize,
-      tableName: 'log',
-      timestamps: false,
-      indexes: [
-        {
-          name: "PRIMARY",
-          unique: true,
-          using: "BTREE",
-          fields: [
-            { name: "id" },
-          ]
-        },
-      ]
-    });
+    ]
+  });
   }
 }
